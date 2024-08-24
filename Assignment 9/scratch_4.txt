@@ -1,0 +1,20 @@
+# approximate_pi_cython.pyx
+
+# Import necessary libraries
+from libc.stdlib cimport rand, RAND_MAX
+cimport cython
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def approximate_pi(int num_samples):
+    cdef int count_inside = 0
+    cdef double x, y
+
+    for _ in range(num_samples):
+        x = rand() / <double>RAND_MAX
+        y = rand() / <double>RAND_MAX
+
+        if x**2 + y**2 <= 1:
+            count_inside += 1
+
+    return 4.0 * count_inside / num_samples
